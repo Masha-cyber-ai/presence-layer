@@ -1,0 +1,10 @@
+# OS junk
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Vercel CLI metadata
+.vercel/
+
+# Node (на случай, если появится)
+node_modules/

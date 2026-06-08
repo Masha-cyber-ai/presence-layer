@@ -1,0 +1,1036 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PRESENCE LAYER — Design System</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+
+@font-face {
+  font-family:'Dela Gothic One';
+  src:url('fonts/DelaGothicOne-Latin.woff2') format('woff2');
+  font-weight:400; font-style:normal; font-display:swap;
+}
+
+:root{
+  /* PRIMITIVES */
+  --c-bg:#141319; --c-surface:#212028; --c-surface-2:#252630;
+  --c-mint:#6EF4D8; --c-mint-hi:#7BF5E0; --c-mint-mid:#99F8E0; --c-mint-lo:#B6FAC4;
+  --c-violet:#AE70FE; --c-violet-mid:#EAB0FC; --c-violet-lo:#A39BFF;
+  --c-pink:#FEAAD3; --c-pink-mid:#FFC3C3; --c-pink-lo:#FDB0CE;
+  --c-lilac:#E5A4D9; --c-cream:#F7E3A1;
+  --c-grad-teal:#48A286; --c-grad-violet:#715DB1;
+
+  /* SEMANTIC — четыре равноправных акцента */
+  --bg:var(--c-bg); --bg2:#0d0d12; --bg-black:#14131a;
+  --accent:var(--c-mint); --purple:var(--c-violet);
+  --teal:var(--c-mint-hi); --pink:var(--c-pink); --yellow:var(--c-cream);
+
+  /* GRADIENTS — base single-color */
+  --grad-mint:linear-gradient(180deg, #7BF5E0 0%, #99F8E0 50%, #B6FAC4 100%);
+  --grad-violet:linear-gradient(180deg, #AE70FE 0%, #EAB0FC 50%, #A39BFF 100%);
+  --grad-pink:linear-gradient(180deg, #FEAAD3 0%, #FFC3C3 50%, #FDB0CE 100%);
+  --grad-yellow:linear-gradient(180deg, #F7E3A1 0%, #FFE9B5 50%, #FFD89C 100%);
+  --grad-teal-dk:linear-gradient(180deg, #252630 0%, #48A286 100%);
+  --grad-violet-dk:linear-gradient(180deg, #252630 0%, #715DB1 100%);
+
+  /* GRADIENTS — composite multi-color (используются точечно) */
+  --grad-sunrise:linear-gradient(135deg, #F7E3A1 0%, #B6FAC4 100%);
+  --grad-sunset:linear-gradient(160deg, #F7E3A1 0%, #FEAAD3 50%, #EAB0FC 100%);
+  --grad-spectrum:linear-gradient(135deg, #AE70FE 0%, #FEAAD3 50%, #B6FAC4 100%);
+  --grad-aurora-soft:linear-gradient(120deg, #99F8E0 0%, #A39BFF 50%, #FEAAD3 100%);
+  --grad-warm-ceo:linear-gradient(135deg, #FEAAD3 0%, #F7E3A1 100%);
+  --bg-aurora:
+    radial-gradient(50% 36% at 12% 8%,  rgba(174,112,254,.55) 0%, rgba(174,112,254,0) 55%),
+    radial-gradient(43% 40% at 95% 22%, rgba(254,170,211,.50) 0%, rgba(254,170,211,0) 55%),
+    radial-gradient(56% 47% at 85% 95%, rgba(110,244,216,.45) 0%, rgba(110,244,216,0) 60%),
+    radial-gradient(47% 40% at 5% 88%,  rgba(174,112,254,.45) 0%, rgba(174,112,254,0) 60%),
+    var(--c-bg);
+
+  /* PHONE BG — single-color glow (по цвету заголовка экрана) */
+  --bg-glow-m:radial-gradient(55% 48% at 18% 12%,rgba(110,244,216,.28) 0%,transparent 60%),radial-gradient(42% 36% at 82% 88%,rgba(110,244,216,.14) 0%,transparent 55%),var(--bg-black);
+  --bg-glow-v:radial-gradient(55% 48% at 18% 12%,rgba(174,112,254,.32) 0%,transparent 60%),radial-gradient(42% 36% at 82% 88%,rgba(174,112,254,.16) 0%,transparent 55%),var(--bg-black);
+  --bg-glow-p:radial-gradient(55% 48% at 82% 10%,rgba(254,170,211,.32) 0%,transparent 60%),radial-gradient(42% 36% at 18% 88%,rgba(254,170,211,.16) 0%,transparent 55%),var(--bg-black);
+  --bg-glow-y:radial-gradient(55% 50% at 50% 18%,rgba(247,227,161,.30) 0%,transparent 60%),radial-gradient(40% 36% at 50% 82%,rgba(253,176,206,.16) 0%,transparent 55%),var(--bg-black);
+
+  /* PHONE BG — composite multi-color (точечно, 2-3 экрана) */
+  --bg-composite-1:radial-gradient(45% 35% at 12% 8%,rgba(110,244,216,.55) 0%,transparent 55%),radial-gradient(40% 38% at 95% 22%,rgba(254,189,198,.50) 0%,transparent 55%),radial-gradient(50% 45% at 85% 95%,rgba(174,158,255,.50) 0%,transparent 60%),radial-gradient(42% 38% at 5% 88%,rgba(247,227,161,.45) 0%,transparent 60%),var(--bg-black);
+  --bg-composite-2:radial-gradient(60% 45% at 50% 0%,rgba(247,227,161,.32) 0%,transparent 55%),radial-gradient(50% 45% at 100% 50%,rgba(254,170,211,.30) 0%,transparent 60%),radial-gradient(50% 45% at 0% 100%,rgba(174,112,254,.32) 0%,transparent 60%),var(--bg-black);
+  --bg-composite-3:radial-gradient(60% 50% at 50% 100%,rgba(110,244,216,.30) 0%,transparent 55%),radial-gradient(50% 40% at 10% 10%,rgba(174,112,254,.28) 0%,transparent 60%),radial-gradient(45% 40% at 90% 30%,rgba(247,227,161,.22) 0%,transparent 55%),var(--bg-black);
+
+  /* ALPHAS — accent rgba(110,244,216,…) */
+  --a06:rgba(110,244,216,.06); --a08:rgba(110,244,216,.08);
+  --a12:rgba(110,244,216,.12); --a15:rgba(110,244,216,.15);
+  --a20:rgba(110,244,216,.20); --a30:rgba(110,244,216,.30);
+  --a55:rgba(110,244,216,.55);
+
+  /* WHITE ALPHAS */
+  --w04:rgba(255,255,255,.04); --w06:rgba(255,255,255,.06);
+  --w08:rgba(255,255,255,.08); --w10:rgba(255,255,255,.10);
+  --w15:rgba(255,255,255,.15); --w20:rgba(255,255,255,.20);
+  --w25:rgba(255,255,255,.25); --w30:rgba(255,255,255,.30);
+  --w40:rgba(255,255,255,.40); --w60:rgba(255,255,255,.60); --w80:rgba(255,255,255,.80);
+
+  /* TYPOGRAPHY */
+  --font-display:'Dela Gothic One','DM Mono',monospace;
+  --display-size:32px; --display-tracking:4px; --display-stroke:1px; --display-line:32px;
+
+  /* SPACING SCALE */
+  --sp-2:2px; --sp-4:4px; --sp-6:6px; --sp-8:8px; --sp-10:10px;
+  --sp-12:12px; --sp-14:14px; --sp-16:16px; --sp-18:18px; --sp-22:22px;
+  --sp-24:24px; --sp-32:32px; --sp-40:40px; --sp-60:60px; --sp-80:80px;
+
+  /* BORDER RADIUS SCALE */
+  --r-sm:6px; --r-md:10px; --r-lg:14px; --r-xl:16px; --r-2xl:18px;
+  --r-card:50px; --r-pill:999px;
+
+  /* SHADOWS & GLOWS */
+  --shadow-sm:0 4px 12px rgba(0,0,0,.4);
+  --shadow-md:0 8px 24px rgba(0,0,0,.6);
+  --shadow-lg:0 16px 48px rgba(0,0,0,.7);
+  --shadow-phone:0 50px 110px rgba(0,0,0,.85);
+  --glow-accent:0 0 14px rgba(110,244,216,.45);
+  --glow-violet:0 0 14px rgba(174,112,254,.45);
+  --glow-pink:0 0 14px rgba(254,170,211,.45);
+
+  /* MOTION */
+  --ease:cubic-bezier(.4,0,.2,1);
+}
+
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;-webkit-font-smoothing:antialiased}
+html{scroll-behavior:smooth;}
+body{
+  font-family:'DM Mono',monospace;
+  background:var(--c-bg); color:#fff;
+  min-height:100vh; padding:56px 52px 120px;
+  max-width:1440px; margin:0 auto;
+}
+
+/* ── PAGE HEADER ───────────────────────────────────────── */
+.ds-header{
+  display:flex; justify-content:space-between; align-items:flex-end;
+  padding-bottom:28px; border-bottom:1px solid var(--w06); margin-bottom:72px;
+}
+.ds-wordmark{
+  font-family:var(--font-display); font-size:var(--display-size);
+  letter-spacing:var(--display-tracking); text-transform:uppercase; line-height:var(--display-line);
+}
+.ds-wordmark .stk{display:block; color:transparent; -webkit-text-stroke:var(--display-stroke) var(--accent);}
+.ds-wordmark .fill{display:block; color:var(--accent);}
+.ds-meta{font-size:10px; letter-spacing:.2em; color:var(--w30); text-transform:uppercase; line-height:2; text-align:right;}
+
+/* ── SECTION ───────────────────────────────────────────── */
+.ds-section{margin-bottom:88px;}
+.ds-section-head{display:flex; align-items:center; gap:16px; margin-bottom:36px;}
+.ds-section-head h2{
+  font-family:var(--font-display); font-size:24px; letter-spacing:.08em;
+  text-transform:uppercase; color:var(--w80); white-space:nowrap;
+}
+.ds-section-head::after{content:''; flex:1; height:1px; background:linear-gradient(to right, var(--w10), transparent);}
+.ds-num{font-size:9px; letter-spacing:.22em; color:var(--accent); text-transform:uppercase;}
+
+.ds-subsection{margin-bottom:44px;}
+.ds-sublabel{
+  font-size:9px; letter-spacing:.22em; color:var(--w25); text-transform:uppercase;
+  margin-bottom:16px; display:flex; align-items:center; gap:12px;
+}
+.ds-sublabel::after{content:''; flex:1; height:1px; background:var(--w06);}
+
+/* ── TOKEN CHIP ────────────────────────────────────────── */
+.tk{
+  display:inline-block; font-size:9px; letter-spacing:.08em;
+  padding:3px 8px; border-radius:4px;
+  background:var(--w06); color:var(--w60); font-family:'DM Mono',monospace;
+  border:1px solid var(--w08);
+}
+
+/* ── COLOR SWATCHES ────────────────────────────────────── */
+.color-grid{display:flex; flex-wrap:wrap; gap:12px;}
+.swatch{width:100px; display:flex; flex-direction:column; gap:7px;}
+.sw{width:100px; height:58px; border-radius:10px; border:1px solid rgba(255,255,255,.06);}
+.sw-label{font-size:8px; color:var(--w35); letter-spacing:.06em; line-height:1.6;}
+.sw-label b{display:block; color:var(--w70); font-weight:500; font-size:9px; letter-spacing:.04em; margin-bottom:2px;}
+
+/* overrides for wide/gradient swatches */
+.swatch.wide{width:172px;}
+.swatch.wide .sw{width:172px; height:80px; border-radius:12px;}
+
+.grad-row{display:flex; gap:14px; flex-wrap:wrap;}
+.grad-sw{flex:1; min-width:130px; height:96px; border-radius:14px; border:1px solid rgba(255,255,255,.06);}
+.grad-block{display:flex; flex-direction:column; gap:8px;}
+.grad-block .sw-label{font-size:8px; color:var(--w30); letter-spacing:.08em;}
+
+/* ── ALPHA SCALE ───────────────────────────────────────── */
+.alpha-row{display:flex; gap:8px; flex-wrap:wrap;}
+.alpha-chip{
+  width:64px; height:64px; border-radius:10px; border:1px solid var(--w10);
+  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px;
+}
+.alpha-chip .pct{font-size:10px; color:#fff; font-weight:500;}
+.alpha-chip .name{font-size:8px; color:var(--w40); letter-spacing:.08em;}
+
+/* ── AURORA PREVIEW ────────────────────────────────────── */
+.aurora-preview{
+  width:100%; height:192px; border-radius:20px;
+  background:var(--bg-aurora); border:1px solid var(--w06);
+  display:flex; align-items:center; justify-content:center;
+  font-family:var(--font-display); font-size:28px; letter-spacing:.08em;
+  text-transform:uppercase; color:rgba(255,255,255,.12);
+}
+
+/* ── TYPOGRAPHY SPECIMENS ──────────────────────────────── */
+.typo-block{
+  padding:28px 32px; border:1px solid var(--w08); border-radius:16px;
+  background:var(--w04); margin-bottom:14px;
+  display:flex; align-items:flex-end; justify-content:space-between; gap:24px;
+}
+.typo-meta{
+  font-size:9px; color:var(--w30); letter-spacing:.12em; text-transform:uppercase;
+  line-height:1.9; white-space:nowrap; text-align:right; flex-shrink:0;
+}
+.type-display{
+  font-family:var(--font-display); font-size:var(--display-size);
+  letter-spacing:var(--display-tracking); text-transform:uppercase; line-height:var(--display-line);
+}
+.type-display .stk{color:transparent; -webkit-text-stroke:var(--display-stroke) var(--accent);}
+.type-display .fill{color:var(--accent);}
+.type-display .stk-v{color:transparent; -webkit-text-stroke:var(--display-stroke) var(--purple);}
+.type-display .fill-v{color:var(--purple);}
+.type-display .stk-p{color:transparent; -webkit-text-stroke:var(--display-stroke) var(--pink);}
+.type-display .fill-p{color:var(--pink);}
+.type-display .stk-y{color:transparent; -webkit-text-stroke:var(--display-stroke) var(--yellow);}
+.type-display .fill-y{color:var(--yellow);}
+
+/* ── ID CARD (active/inactive) ─ Figma node 11-466 ──── */
+.idc{
+  position:relative; width:100%; padding:12px 14px 16px;
+  background:var(--bg-black); color:#fff;
+  clip-path:polygon(10px 0, calc(100% - 14px) 0, 100% 14px, 100% calc(100% - 14px), calc(100% - 14px) 100%, 14px 100%, 0 calc(100% - 10px), 0 14px);
+  border:1px solid rgba(255,255,255,.18);
+  display:grid; grid-template-rows:auto 1fr auto; gap:6px; min-height:112px;
+  transition:.2s var(--ease);
+}
+.idc::before{content:''; position:absolute; inset:0; pointer-events:none; clip-path:inherit;}
+.idc .idc-av{width:32px; height:32px; border-radius:50%; background:linear-gradient(135deg,var(--c-surface),var(--c-bg)); border:1px solid var(--w15);}
+.idc .idc-nm{font-family:var(--font-display); font-size:14px; letter-spacing:.06em; text-transform:uppercase; color:#fff; line-height:1.1;}
+.idc .idc-st{font-family:'DM Mono',monospace; font-size:8px; letter-spacing:.1em; text-transform:uppercase; color:var(--w40); margin-top:auto;}
+.idc.s{ border-color:rgba(110,244,216,.4); box-shadow:0 0 18px rgba(110,244,216,.18); }
+.idc.s .idc-nm{color:var(--accent);}
+.idc.s .idc-st{color:var(--accent);}
+.idc.s .idc-av{border-color:var(--accent); box-shadow:0 0 10px rgba(110,244,216,.4);}
+.idc.s .idc-check{position:absolute; top:8px; right:10px; width:18px; height:18px; border-radius:50%; background:var(--accent); display:flex; align-items:center; justify-content:center; color:#0d0d12; font-size:11px; font-weight:700; box-shadow:0 0 8px rgba(110,244,216,.5);}
+.idc.s.v{border-color:rgba(174,112,254,.4); box-shadow:0 0 18px rgba(174,112,254,.18);}
+.idc.s.v .idc-nm,.idc.s.v .idc-st{color:var(--purple);} .idc.s.v .idc-av{border-color:var(--purple); box-shadow:0 0 10px rgba(174,112,254,.4);} .idc.s.v .idc-check{background:var(--purple); box-shadow:0 0 8px rgba(174,112,254,.5);}
+.idc.s.p{border-color:rgba(254,170,211,.45); box-shadow:0 0 18px rgba(254,170,211,.18);}
+.idc.s.p .idc-nm,.idc.s.p .idc-st{color:var(--pink);} .idc.s.p .idc-av{border-color:var(--pink); box-shadow:0 0 10px rgba(254,170,211,.4);} .idc.s.p .idc-check{background:var(--pink); box-shadow:0 0 8px rgba(254,170,211,.5);}
+.idc.s.y{border-color:rgba(247,227,161,.45); box-shadow:0 0 18px rgba(247,227,161,.18);}
+.idc.s.y .idc-nm,.idc.s.y .idc-st{color:var(--yellow);} .idc.s.y .idc-av{border-color:var(--yellow); box-shadow:0 0 10px rgba(247,227,161,.4);} .idc.s.y .idc-check{background:var(--yellow); box-shadow:0 0 8px rgba(247,227,161,.5);}
+
+/* ── STEP ARROW BAR ─ Figma node 11-467 ──────────── */
+.sab{display:flex; align-items:center; gap:14px; padding:8px 4px;}
+.sab-back{width:42px; height:42px; border-radius:14px; background:rgba(0,0,0,.35); backdrop-filter:blur(7px); border:1px solid rgba(255,255,255,.16); display:flex; align-items:center; justify-content:center; color:#fff; cursor:pointer;}
+.sab-pill{display:flex; align-items:center; gap:10px; padding:9px 15px; border-radius:999px; background:rgba(0,0,0,.35); backdrop-filter:blur(7px); border:1px solid rgba(255,255,255,.16); font-family:'JetBrains Mono','DM Mono',monospace; font-size:10px; letter-spacing:.18em; color:#fff;}
+.sab-pill::before{content:''; width:6px; height:6px; border-radius:50%; background:var(--accent); box-shadow:0 0 10px var(--accent);}
+.sab-skip{margin-left:auto; padding:8px 4px; font-family:'JetBrains Mono','DM Mono',monospace; font-size:11px; letter-spacing:.18em; color:rgba(255,255,255,.5); opacity:.7; cursor:pointer;}
+
+/* ── PHONE STATUS BAR ─ Figma node 16-315 ────────── */
+.psb{display:flex; align-items:center; justify-content:space-between; padding:10px 22px; background:#000; height:44px;}
+.psb-time{font-family:'DM Mono',monospace; font-weight:500; font-size:12px; color:#fff;}
+.psb-icons{display:flex; align-items:center; gap:5px; color:#fff;}
+.psb-icons svg{display:block;}
+
+.mono-scale{border:1px solid var(--w06); border-radius:14px; overflow:hidden;}
+.mono-row{
+  display:flex; align-items:baseline; justify-content:space-between; gap:24px;
+  padding:14px 20px; border-bottom:1px solid var(--w06);
+}
+.mono-row:last-child{border-bottom:none;}
+.mono-specimen{flex:1; color:var(--w80);}
+.mono-meta{font-size:9px; color:var(--w25); letter-spacing:.1em; text-transform:uppercase; white-space:nowrap;}
+
+/* ── COMPONENT GRID ────────────────────────────────────── */
+.comp-grid{display:grid; grid-template-columns:repeat(auto-fill, minmax(290px,1fr)); gap:20px;}
+.comp-card{
+  padding:24px; border-radius:16px;
+  background:var(--w04); border:1px solid var(--w08);
+}
+.comp-label{font-size:9px; letter-spacing:.22em; color:var(--w30); text-transform:uppercase; margin-bottom:20px;}
+.comp-demo{display:flex; flex-direction:column; gap:10px; align-items:flex-start;}
+.comp-row{display:flex; gap:10px; align-items:center; flex-wrap:wrap;}
+
+/* ── BUTTONS ─────────────────────────────────────────────*/
+.clip{clip-path:polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 14px 100%, 0 calc(100% - 14px));}
+.btn{
+  display:inline-flex; align-items:center; justify-content:center;
+  padding:0 22px; height:44px;
+  font-family:'Barlow Condensed',sans-serif; font-size:14px; font-weight:800;
+  letter-spacing:.12em; text-transform:uppercase; color:#000;
+  background:linear-gradient(135deg, rgba(110,244,216,.18) 0%, rgba(110,244,216,0) 50%), #fff;
+  border:none; cursor:pointer; transition:.2s;
+  clip-path:polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 14px 100%, 0 calc(100% - 14px));
+}
+.btn:hover{filter:brightness(1.06);}
+.btn-line{
+  display:inline-flex; align-items:center; justify-content:center;
+  padding:0 22px; height:44px;
+  font-family:'Barlow Condensed',sans-serif; font-size:14px; font-weight:800;
+  letter-spacing:.12em; text-transform:uppercase; color:#fff;
+  background:var(--w08); border:none; cursor:pointer; transition:.2s;
+  clip-path:polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 14px 100%, 0 calc(100% - 14px));
+}
+.btn-line:hover{background:var(--w15);}
+.btn-ghost{
+  background:transparent; border:none; padding:8px 0; cursor:pointer;
+  font-family:'DM Mono',monospace; font-size:11px; font-weight:500;
+  letter-spacing:.18em; text-transform:uppercase; color:var(--accent);
+}
+.btn-disabled{
+  display:inline-flex; align-items:center; justify-content:center;
+  padding:0 22px; height:44px;
+  font-family:'Barlow Condensed',sans-serif; font-size:14px; font-weight:800;
+  letter-spacing:.12em; text-transform:uppercase;
+  background:rgba(255,255,255,.06); color:rgba(255,255,255,.35);
+  border:none; cursor:not-allowed;
+  clip-path:polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 14px 100%, 0 calc(100% - 14px));
+}
+
+/* ── ORBS ─────────────────────────────────────────────────*/
+.orb{
+  border-radius:50%; flex-shrink:0;
+  background:linear-gradient(135deg, var(--c-surface), var(--c-bg));
+  border:1px solid var(--w15);
+  display:flex; align-items:center; justify-content:center;
+  font-family:'DM Mono',monospace; font-weight:500; letter-spacing:.05em; color:var(--w60);
+}
+.orb.xs{width:24px; height:24px; font-size:8px;}
+.orb.sm{width:32px; height:32px; font-size:9px;}
+.orb.md{width:44px; height:44px; font-size:10px;}
+.orb.lg{width:72px; height:72px; font-size:12px;}
+.orb.xl{width:110px; height:110px; font-size:13px;}
+.orb.act{border-color:var(--accent); color:var(--accent); box-shadow:var(--glow-accent); animation:orb-pulse 2s ease-in-out infinite;}
+.orb.grad-m{background:var(--grad-mint); border-color:transparent; color:#0d0d12;}
+.orb.grad-v{background:var(--grad-violet); border-color:transparent; color:#fff;}
+.orb.grad-p{background:var(--grad-pink); border-color:transparent; color:#3a1830;}
+@keyframes orb-pulse{0%,100%{box-shadow:0 0 14px rgba(110,244,216,.3);}50%{box-shadow:0 0 28px rgba(110,244,216,.55), 0 0 56px rgba(110,244,216,.15);}}
+
+/* ── CARDS ─────────────────────────────────────────────── */
+.card-clip{position:relative; margin-bottom:2px;}
+.card-clip-out{position:absolute; inset:-1px; background:var(--a15); clip-path:polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 16px 100%, 0 calc(100% - 16px));}
+.card-clip-in{position:relative; padding:14px 16px; background:rgba(20,19,25,.85); clip-path:polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 16px 100%, 0 calc(100% - 16px)); font-size:11px; color:var(--w60); line-height:1.5;}
+.card-soft{padding:14px 16px; background:var(--w04); border:1px solid var(--w08); border-radius:14px; font-size:11px; color:var(--w60); line-height:1.5;}
+.card-dk{padding:14px 16px; background:var(--grad-violet-dk); border:1px solid var(--a20); border-radius:14px; font-size:11px; color:var(--w80); line-height:1.5;}
+.card-teal{padding:14px 16px; background:var(--grad-teal-dk); border:1px solid rgba(110,244,216,.2); border-radius:14px; font-size:11px; color:var(--w80); line-height:1.5;}
+
+/* ── TOGGLES & RADIO ──────────────────────────────────── */
+.tg{
+  width:40px; height:22px; border-radius:999px; flex-shrink:0; cursor:pointer;
+  background:var(--w08); border:1px solid var(--w15); position:relative;
+}
+.tg::after{content:''; position:absolute; top:2px; left:2px; width:16px; height:16px; border-radius:50%; background:var(--w40);}
+.tg.on{background:var(--a15); border-color:var(--accent);}
+.tg.on::after{background:var(--accent); box-shadow:0 0 10px var(--accent); transform:translateX(18px);}
+.rd{width:18px; height:18px; border-radius:50%; flex-shrink:0; border:1.5px solid var(--w25); position:relative; cursor:pointer;}
+.rd.on{border-color:var(--accent);}
+.rd.on::after{content:''; position:absolute; inset:3px; border-radius:50%; background:var(--accent); box-shadow:0 0 8px var(--accent);}
+
+/* ── PILLS & TAGS ─────────────────────────────────────── */
+.pl{padding:6px 12px; border:1px solid var(--w15); border-radius:999px; font-size:10px; letter-spacing:.08em; text-transform:uppercase; color:var(--w60); display:inline-block;}
+.pl.a{background:var(--a12); border-color:var(--accent); color:var(--accent);}
+.tag{padding:4px 10px; border-radius:6px; font-size:8px; font-weight:500; letter-spacing:.18em; text-transform:uppercase; display:inline-block;}
+.tag-hard{background:rgba(254,170,211,.10); border:1px solid rgba(254,170,211,.4); color:var(--pink);}
+.tag-personal{background:var(--w06); border:1px solid var(--w15); color:var(--w60);}
+.tag-soft{background:var(--a08); border:1px solid var(--a30); color:var(--accent);}
+
+/* ── SLIDER ───────────────────────────────────────────── */
+.sl-wrap{width:100%;}
+.sl{height:3px; background:var(--w10); border-radius:999px; position:relative; margin:12px 0;}
+.sl-f{position:absolute; left:0; top:0; height:100%; background:var(--accent); border-radius:999px; box-shadow:0 0 8px rgba(110,244,216,.4);}
+.sl-t{position:absolute; top:50%; width:16px; height:16px; border-radius:50%; background:var(--accent); transform:translate(-50%,-50%); box-shadow:0 0 12px var(--accent);}
+.sl-ends{display:flex; justify-content:space-between; font-size:9px; letter-spacing:.12em; color:var(--w30); text-transform:uppercase;}
+
+/* ── PROGRESS RING ────────────────────────────────────── */
+.ring{width:60px; height:60px; position:relative;}
+.ring svg{transform:rotate(-90deg);}
+.ring .rtrack{fill:none; stroke:var(--w08); stroke-width:5;}
+.ring .rfill{fill:none; stroke-width:5; stroke-linecap:round;}
+.ring .rpct{position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-family:'DM Mono',monospace; font-size:10px; font-weight:500;}
+
+/* ── LIVE & STATUS ────────────────────────────────────── */
+.lvd{width:6px; height:6px; border-radius:50%; background:var(--accent); display:inline-block; box-shadow:0 0 6px var(--accent); vertical-align:middle; animation:blink 1.5s ease-in-out infinite;}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:.3;}}
+.step-ind{display:flex; align-items:center; gap:8px; font-size:9px; letter-spacing:.22em; color:var(--accent); text-transform:uppercase;}
+.step-dot{width:6px; height:6px; border-radius:50%; background:var(--accent); box-shadow:0 0 6px var(--accent), 0 0 12px rgba(110,244,216,.5);}
+.wf{display:flex; align-items:center; gap:3px; height:32px;}
+.wf i{width:2px; background:var(--accent); border-radius:2px; display:block; animation:wave 1.2s ease-in-out infinite; box-shadow:0 0 3px var(--accent);}
+.wf i:nth-child(2n){animation-delay:.1s;} .wf i:nth-child(3n){animation-delay:.2s;} .wf i:nth-child(4n){animation-delay:.3s;}
+@keyframes wave{0%,100%{height:4px;}50%{height:22px;}}
+
+/* ── DOTS PAGINATION ──────────────────────────────────── */
+.dots{display:flex; gap:5px; align-items:center;}
+.dots i{width:5px; height:5px; border-radius:50%; background:var(--w20); display:block;}
+.dots i.a{background:var(--accent); width:18px; border-radius:3px; box-shadow:0 0 6px var(--accent);}
+
+/* ── BAR CHART ────────────────────────────────────────── */
+.bar-chart{display:flex; align-items:flex-end; gap:5px; height:60px;}
+.bar-chart i{flex:1; background:linear-gradient(to top, var(--accent), rgba(110,244,216,.35)); border-radius:2px 2px 0 0; box-shadow:0 0 6px rgba(110,244,216,.25);}
+
+/* ── SPACING VIZ ──────────────────────────────────────── */
+.spacing-stack{display:flex; flex-direction:column; gap:6px;}
+.sp-row{display:flex; align-items:center; gap:14px;}
+.sp-bar{background:var(--accent); height:8px; border-radius:2px; opacity:.6;}
+.sp-info{font-size:9px; color:var(--w40); letter-spacing:.1em; white-space:nowrap;}
+.sp-info b{color:var(--w70); font-weight:500;}
+
+/* ── RADIUS VIZ ───────────────────────────────────────── */
+.radius-row{display:flex; gap:10px; flex-wrap:wrap; align-items:flex-end;}
+.radius-chip{
+  background:var(--w06); border:1px solid var(--w10);
+  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px;
+  width:68px; height:68px;
+}
+.radius-chip b{font-size:10px; color:var(--w80); font-weight:500;}
+.radius-chip span{font-size:8px; color:var(--w30); letter-spacing:.08em;}
+
+/* ── SHADOW VIZ ───────────────────────────────────────── */
+.shadow-row{display:flex; gap:14px; flex-wrap:wrap;}
+.shadow-chip{
+  width:108px; height:78px; border-radius:12px; background:var(--c-surface);
+  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:5px;
+}
+.shadow-chip span{font-size:8px; letter-spacing:.08em; text-align:center; padding:0 8px; line-height:1.5;}
+
+@media(max-width:900px){
+  body{padding:32px 20px 80px;}
+  .ds-header{flex-direction:column; align-items:flex-start; gap:14px;}
+  .ds-meta{text-align:left;}
+  .comp-grid{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- ── PAGE HEADER ───────────────────────────────────────── -->
+<header class="ds-header">
+  <div class="ds-wordmark">
+    <span class="fill">PRESENCE</span>
+    <span class="stk">DESIGN&nbsp;SYSTEM</span>
+  </div>
+  <div class="ds-meta">
+    Dela Gothic One · DM Mono · Barlow Condensed<br>
+    Pastel Aurora · Figma node 46:454<br>
+    v2.0 · 2026
+  </div>
+</header>
+
+<!-- ══ 01 ЦВЕТА ══════════════════════════════════════════ -->
+<section class="ds-section">
+  <div class="ds-section-head"><span class="ds-num">01</span><h2>Цвета</h2></div>
+
+  <div class="ds-subsection">
+    <div class="ds-sublabel">Primitives — Surfaces</div>
+    <div class="color-grid">
+      <div class="swatch"><div class="sw" style="background:#141319;"></div><div class="sw-label"><b>--c-bg</b>#141319</div></div>
+      <div class="swatch"><div class="sw" style="background:#0d0d12;"></div><div class="sw-label"><b>--bg2</b>#0d0d12</div></div>
+      <div class="swatch"><div class="sw" style="background:#212028;"></div><div class="sw-label"><b>--c-surface</b>#212028</div></div>
+      <div class="swatch"><div class="sw" style="background:#252630;"></div><div class="sw-label"><b>--c-surface-2</b>#252630</div></div>
+    </div>
+  </div>
+
+  <div class="ds-subsection">
+    <div class="ds-sublabel">Primitives — Mint</div>
+    <div class="color-grid">
+      <div class="swatch"><div class="sw" style="background:#6EF4D8;"></div><div class="sw-label"><b>--c-mint</b>#6EF4D8 · accent</div></div>
+      <div class="swatch"><div class="sw" style="background:#7BF5E0;"></div><div class="sw-label"><b>--c-mint-hi</b>#7BF5E0 · teal</div></div>
+      <div class="swatch"><div class="sw" style="background:#99F8E0;"></div><div class="sw-label"><b>--c-mint-mid</b>#99F8E0</div></div>
+      <div class="swatch"><div class="sw" style="background:#B6FAC4;"></div><div class="sw-label"><b>--c-mint-lo</b>#B6FAC4</div></div>
+    </div>
+  </div>
+
+  <div class="ds-subsection">
+    <div class="ds-sublabel">Primitives — Violet</div>
+    <div class="color-grid">
+      <div class="swatch"><div class="sw" style="background:#AE70FE;"></div><div class="sw-label"><b>--c-violet</b>#AE70FE · purple</div></div>
+      <div class="swatch"><div class="sw" style="background:#EAB0FC;"></div><div class="sw-label"><b>--c-violet-mid</b>#EAB0FC</div></div>
+      <div class="swatch"><div class="sw" style="background:#A39BFF;"></div><div class="sw-label"><b>--c-violet-lo</b>#A39BFF</div></div>
+    </div>
+  </div>
+
+  <div class="ds-subsection">
+    <div class="ds-sublabel">Primitives — Pink &amp; Extras</div>
+    <div class="color-grid">
+      <div class="swatch"><div class="sw" style="background:#FEAAD3;"></div><div class="sw-label"><b>--c-pink</b>#FEAAD3 · pink</div></div>
+      <div class="swatch"><div class="sw" style="background:#FFC3C3;"></div><div class="sw-label"><b>--c-pink-mid</b>#FFC3C3</div></div>
+      <div class="swatch"><div class="sw" style="background:#FDB0CE;"></div><div class="sw-label"><b>--c-pink-lo</b>#FDB0CE</div></div>
+      <div class="swatch"><div class="sw" style="background:#E5A4D9;"></div><div class="sw-label"><b>--c-lilac</b>#E5A4D9</div></div>
+      <div class="swatch"><div class="sw" style="background:#F7E3A1;"></div><div class="sw-label"><b>--c-cream</b>#F7E3A1</div></div>
+    </div>
+  </div>
+
+  <div class="ds-subsection">
+    <div class="ds-sublabel">Primitives — Gradient Endpoints</div>
+    <div class="color-grid">
+      <div class="swatch"><div class="sw" style="background:#48A286;"></div><div class="sw-label"><b>--c-grad-teal</b>#48A286</div></div>
+      <div class="swatch"><div class="sw" style="background:#715DB1;"></div><div class="sw-label"><b>--c-grad-violet</b>#715DB1</div></div>
+    </div>
+  </div>
+
+  <div class="ds-subsection">
+    <div class="ds-sublabel">Semantic — Роли компонентов</div>
+    <div class="color-grid">
+      <div class="swatch"><div class="sw" style="background:#6EF4D8; box-shadow:0 0 14px rgba(110,244,216,.5);"></div><div class="sw-label"><b>--accent</b>var(--c-mint)</div></div>
+      <div class="swatch"><div class="sw" style="background:#AE70FE; box-shadow:0 0 14px rgba(174,112,254,.5);"></div><div class="sw-label"><b>--purple</b>var(--c-violet)</div></div>
+      <div class="swatch"><div class="sw" style="background:#7BF5E0;"></div><div class="sw-label"><b>--teal</b>var(--c-mint-hi)</div></div>
+      <div class="swatch"><div class="sw" style="background:#FEAAD3; box-shadow:0 0 14px rgba(254,170,211,.4);"></div><div class="sw-label"><b>--pink</b>var(--c-pink)</div></div>
+      <div class="swatch"><div class="sw" style="background:#F7E3A1; box-shadow:0 0 14px rgba(247,227,161,.45);"></div><div class="sw-label"><b>--yellow</b>var(--c-cream)</div></div>
+      <div class="swatch"><div class="sw" style="background:var(--bg);"></div><div class="sw-label"><b>--bg</b>var(--c-bg)</div></div>
+      <div class="swatch"><div class="sw" style="background:var(--bg-black);"></div><div class="sw-label"><b>--bg-black</b>#09090e</div></div>
+    </div>
+  </div>
+
+  <div class="ds-subsection">
+    <div class="ds-sublabel">Gradients — Single-color (hero, avatars, pills)</div>
+    <div class="grad-row">
+      <div class="grad-block" style="flex:1; min-width:130px;">
+        <div class="grad-sw" style="background:var(--grad-mint);"></div>
+        <div class="sw-label"><b>--grad-mint</b>7BF5E0→99F8E0→B6FAC4</div>
+      </div>
+      <div class="grad-block" style="flex:1; min-width:130px;">
+        <div class="grad-sw" style="background:var(--grad-violet);"></div>
+        <div class="sw-label"><b>--grad-violet</b>AE70FE→EAB0FC→A39BFF</div>
+      </div>
+      <div class="grad-block" style="flex:1; min-width:130px;">
+        <div class="grad-sw" style="background:var(--grad-pink);"></div>
+        <div class="sw-label"><b>--grad-pink</b>FEAAD3→FFC3C3→FDB0CE</div>
+      </div>
+      <div class="grad-block" style="flex:1; min-width:130px;">
+        <div class="grad-sw" style="background:var(--grad-yellow);"></div>
+        <div class="sw-label"><b>--grad-yellow</b>F7E3A1→FFE9B5→FFD89C</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ds-subsection">
+    <div class="ds-sublabel">Gradients — Composite multi-color (точечно, 3-5 мест)</div>
+    <div class="grad-row">
+      <div class="grad-block" style="flex:1; min-width:160px;">
+        <div class="grad-sw" style="background:var(--grad-sunrise);"></div>
+        <div class="sw-label"><b>--grad-sunrise</b>cream→mint</div>
+      </div>
+      <div class="grad-block" style="flex:1; min-width:160px;">
+        <div class="grad-sw" style="background:var(--grad-sunset);"></div>
+        <div class="sw-label"><b>--grad-sunset</b>cream→pink→violet</div>
+      </div>
+      <div class="grad-block" style="flex:1; min-width:160px;">
+        <div class="grad-sw" style="background:var(--grad-spectrum);"></div>
+        <div class="sw-label"><b>--grad-spectrum</b>violet→pink→mint</div>
+      </div>
+      <div class="grad-block" style="flex:1; min-width:160px;">
+        <div class="grad-sw" style="background:var(--grad-aurora-soft);"></div>
+        <div class="sw-label"><b>--grad-aurora-soft</b>mint→violet→pink</div>
+      </div>
+      <div class="grad-block" style="flex:1; min-width:160px;">
+        <div class="grad-sw" style="background:var(--grad-warm-ceo);"></div>
+        <div class="sw-label"><b>--grad-warm-ceo</b>pink→cream</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ds-subsection">
+    <div class="ds-sublabel">Gradients — Dark (cards, panels)</div>
+    <div class="grad-row">
+      <div class="grad-block" style="flex:1; min-width:200px;">
+        <div class="grad-sw" style="background:var(--grad-teal-dk);"></div>
+        <div class="sw-label"><b>--grad-teal-dk</b>252630→48A286</div>
+      </div>
+      <div class="grad-block" style="flex:1; min-width:200px;">
+        <div class="grad-sw" style="background:var(--grad-violet-dk);"></div>
+        <div class="sw-label"><b>--grad-violet-dk</b>252630→715DB1</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ds-subsection">
+    <div class="ds-sublabel">Phone BG — Single-color glow (по цвету заголовка экрана)</div>
+    <div class="grad-row">
+      <div class="grad-block" style="flex:1; min-width:130px;">
+        <div class="grad-sw" style="background:var(--bg-glow-m); height:120px;"></div>
+        <div class="sw-label"><b>--bg-glow-m</b>mint glow</div>
+      </div>
+      <div class="grad-block" style="flex:1; min-width:130px;">
+        <div class="grad-sw" style="background:var(--bg-glow-v); height:120px;"></div>
+        <div class="sw-label"><b>--bg-glow-v</b>violet glow</div>
+      </div>
+      <div class="grad-block" style="flex:1; min-width:130px;">
+        <div class="grad-sw" style="background:var(--bg-glow-p); height:120px;"></div>
+        <div class="sw-label"><b>--bg-glow-p</b>pink glow</div>
+      </div>
+      <div class="grad-block" style="flex:1; min-width:130px;">
+        <div class="grad-sw" style="background:var(--bg-glow-y); height:120px;"></div>
+        <div class="sw-label"><b>--bg-glow-y</b>yellow glow</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ds-subsection">
+    <div class="ds-sublabel">Phone BG — Composite multi-color (точечно)</div>
+    <div class="grad-row">
+      <div class="grad-block" style="flex:1; min-width:180px;">
+        <div class="grad-sw" style="background:var(--bg-composite-1); height:160px;"></div>
+        <div class="sw-label"><b>--bg-composite-1</b>4-corner aurora (mint+pink+violet+yellow)</div>
+      </div>
+      <div class="grad-block" style="flex:1; min-width:180px;">
+        <div class="grad-sw" style="background:var(--bg-composite-2); height:160px;"></div>
+        <div class="sw-label"><b>--bg-composite-2</b>warm spectrum (yellow→pink→violet)</div>
+      </div>
+      <div class="grad-block" style="flex:1; min-width:180px;">
+        <div class="grad-sw" style="background:var(--bg-composite-3); height:160px;"></div>
+        <div class="sw-label"><b>--bg-composite-3</b>night mint (mint+violet+yellow)</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ds-subsection">
+    <div class="ds-sublabel">Background Aurora (--bg-aurora, legacy)</div>
+    <div class="aurora-preview">--bg-aurora</div>
+  </div>
+
+  <div class="ds-subsection">
+    <div class="ds-sublabel">Alpha Scale — Accent rgba(110,244,216,…)</div>
+    <div class="alpha-row">
+      <div class="alpha-chip" style="background:var(--a06);"><span class="pct">6%</span><span class="name">--a06</span></div>
+      <div class="alpha-chip" style="background:var(--a08);"><span class="pct">8%</span><span class="name">--a08</span></div>
+      <div class="alpha-chip" style="background:var(--a12);"><span class="pct">12%</span><span class="name">--a12</span></div>
+      <div class="alpha-chip" style="background:var(--a15);"><span class="pct">15%</span><span class="name">--a15</span></div>
+      <div class="alpha-chip" style="background:var(--a20);"><span class="pct">20%</span><span class="name">--a20</span></div>
+      <div class="alpha-chip" style="background:var(--a30); border-color:var(--a55);"><span class="pct">30%</span><span class="name">--a30</span></div>
+      <div class="alpha-chip" style="background:var(--a55); border-color:var(--accent);"><span class="pct" style="color:#0d0d12;">55%</span><span class="name" style="color:#0d0d12;">--a55</span></div>
+    </div>
+  </div>
+
+  <div class="ds-subsection">
+    <div class="ds-sublabel">Alpha Scale — White rgba(255,255,255,…)</div>
+    <div class="alpha-row">
+      <div class="alpha-chip" style="background:var(--w04);"><span class="pct">4%</span><span class="name">--w04</span></div>
+      <div class="alpha-chip" style="background:var(--w06);"><span class="pct">6%</span><span class="name">--w06</span></div>
+      <div class="alpha-chip" style="background:var(--w08);"><span class="pct">8%</span><span class="name">--w08</span></div>
+      <div class="alpha-chip" style="background:var(--w10);"><span class="pct">10%</span><span class="name">--w10</span></div>
+      <div class="alpha-chip" style="background:var(--w15);"><span class="pct">15%</span><span class="name">--w15</span></div>
+      <div class="alpha-chip" style="background:var(--w20);"><span class="pct">20%</span><span class="name">--w20</span></div>
+      <div class="alpha-chip" style="background:var(--w25);"><span class="pct">25%</span><span class="name">--w25</span></div>
+      <div class="alpha-chip" style="background:var(--w30);"><span class="pct">30%</span><span class="name">--w30</span></div>
+      <div class="alpha-chip" style="background:var(--w40);"><span class="pct">40%</span><span class="name">--w40</span></div>
+      <div class="alpha-chip" style="background:var(--w60);"><span class="pct" style="color:#141319;">60%</span><span class="name" style="color:#141319;">--w60</span></div>
+      <div class="alpha-chip" style="background:var(--w80);"><span class="pct" style="color:#141319;">80%</span><span class="name" style="color:#141319;">--w80</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 02 ТИПОГРАФИКА ═════════════════════════════════════ -->
+<section class="ds-section">
+  <div class="ds-section-head"><span class="ds-num">02</span><h2>Типографика</h2></div>
+
+  <div class="ds-subsection">
+    <div class="ds-sublabel">Dela Gothic One — Display / Заголовки</div>
+    <div class="typo-block">
+      <div class="type-display">
+        <span class="fill">PRESENCE</span><br><span class="stk">LAYER</span>
+      </div>
+      <div class="typo-meta">
+        --font-display<br>
+        --display-size: 32px<br>
+        --display-tracking: 4px<br>
+        --display-stroke: 1px<br>
+        uppercase · line-height: 32px
+      </div>
+    </div>
+    <div class="typo-block">
+      <div style="font-family:var(--font-display); font-size:26px; letter-spacing:4px; text-transform:uppercase; line-height:26px; color:var(--w80);">AVATAR<br><span style="color:transparent; -webkit-text-stroke:1px var(--accent);">READY</span></div>
+      <div class="typo-meta">.hd.sm · 26px<br>tracking: 4px<br>line-height: 26px</div>
+    </div>
+    <div class="typo-block">
+      <div class="type-display"><span class="fill-v">TEACH</span><span class="stk-v">ME</span></div>
+      <div class="typo-meta">.hd-fill-v / .hd-stk-v<br>violet variant</div>
+    </div>
+    <div class="typo-block">
+      <div class="type-display"><span class="fill-p">HOW</span><span class="stk-p">MUCH</span></div>
+      <div class="typo-meta">.hd-fill-p / .hd-stk-p<br>pink variant</div>
+    </div>
+    <div class="typo-block">
+      <div class="type-display"><span class="fill-y">REST</span><span class="stk-y">EASY</span></div>
+      <div class="typo-meta">.hd-fill-y / .hd-stk-y<br>yellow variant</div>
+    </div>
+    <div class="typo-block">
+      <div style="font-family:var(--font-display); font-size:22px; letter-spacing:4px; text-transform:uppercase; color:#fff;">CREATOR<br><span style="color:var(--purple);">MODE</span></div>
+      <div class="typo-meta">.tier .nm · 22px<br>tier labels</div>
+    </div>
+  </div>
+
+  <div class="ds-subsection">
+    <div class="ds-sublabel">DM Mono — Body / UI Text</div>
+    <div class="mono-scale">
+      <div class="mono-row">
+        <div class="mono-specimen" style="font-size:16px; font-weight:500;">All identities encrypted</div>
+        <div class="mono-meta">16px · 500 · inline</div>
+      </div>
+      <div class="mono-row">
+        <div class="mono-specimen" style="font-size:13px; font-weight:400; color:var(--w80);">An AI service for digital identity delegation and presence management.</div>
+        <div class="mono-meta">13px · 400 · body</div>
+      </div>
+      <div class="mono-row">
+        <div class="mono-specimen" style="font-size:12px; color:var(--w60);">Session started · 3 identities active · 14h 22m total</div>
+        <div class="mono-meta">12px · secondary</div>
+      </div>
+      <div class="mono-row">
+        <div class="mono-specimen" style="font-size:11px; font-weight:500; letter-spacing:.04em; color:var(--w80);">AVATAR SYNC · ACTIVE SESSION</div>
+        <div class="mono-meta">11px · 500 · labels</div>
+      </div>
+      <div class="mono-row">
+        <div class="mono-specimen" style="font-size:10px; letter-spacing:.12em; color:var(--w40); text-transform:uppercase;">Identity Profile · Creator Mode</div>
+        <div class="mono-meta">10px · .12em · meta</div>
+      </div>
+      <div class="mono-row">
+        <div class="mono-specimen" style="font-size:9px; letter-spacing:.22em; color:var(--w30); text-transform:uppercase;">STEP 1 OF 4 · VAULT STATUS</div>
+        <div class="mono-meta">9px · .22em · steps</div>
+      </div>
+      <div class="mono-row">
+        <div class="mono-specimen" style="font-size:8px; letter-spacing:.18em; color:var(--accent); text-transform:uppercase;">LIVE · AVATAR READY · SYNCING</div>
+        <div class="mono-meta">8px · .18em · micro</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ds-subsection">
+    <div class="ds-sublabel">Barlow Condensed — Кнопки / CTA</div>
+    <div class="typo-block">
+      <div>
+        <div style="font-family:'Barlow Condensed',sans-serif; font-size:22px; font-weight:800; letter-spacing:.12em; text-transform:uppercase; margin-bottom:8px;">CONNECT IDENTITY</div>
+        <div style="font-family:'Barlow Condensed',sans-serif; font-size:15px; font-weight:800; letter-spacing:.12em; text-transform:uppercase; color:var(--w50);">TRY A TEST CALL · GET STARTED</div>
+      </div>
+      <div class="typo-meta">Barlow Condensed<br>weight: 800<br>letter-spacing: .12em</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 03 КОМПОНЕНТЫ ══════════════════════════════════════ -->
+<section class="ds-section">
+  <div class="ds-section-head"><span class="ds-num">03</span><h2>Компоненты</h2></div>
+  <div class="comp-grid">
+
+    <!-- Buttons -->
+    <div class="comp-card">
+      <div class="comp-label">Кнопки</div>
+      <div class="comp-demo">
+        <button class="btn clip" style="width:100%;">Connect Identity</button>
+        <button class="btn-line clip" style="width:100%;">View Sessions</button>
+        <button class="btn-ghost">Skip for now →</button>
+        <button class="btn-disabled clip" style="width:100%;">Недоступно</button>
+        <div style="display:flex; gap:6px; flex-wrap:wrap;">
+          <span class="tk">#fff fill</span><span class="tk">Barlow 800</span><span class="tk">clip-path</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Orbs -->
+    <div class="comp-card">
+      <div class="comp-label">Орбы / Аватары</div>
+      <div class="comp-demo">
+        <div class="comp-row">
+          <div class="orb xs">xs</div>
+          <div class="orb sm">sm</div>
+          <div class="orb md">md</div>
+          <div class="orb lg">lg</div>
+          <div class="orb xl">xl</div>
+        </div>
+        <div class="comp-row" style="margin-top:4px;">
+          <div class="orb md act" title="Active">✓</div>
+          <div class="orb md grad-m" title="Mint gradient">AI</div>
+          <div class="orb md grad-v" title="Violet gradient">VP</div>
+          <div class="orb md grad-p" title="Pink gradient">★</div>
+        </div>
+        <div style="display:flex; gap:6px; flex-wrap:wrap;">
+          <span class="tk">.act · glow-accent</span><span class="tk">--grad-mint/violet/pink</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cards -->
+    <div class="comp-card">
+      <div class="comp-label">Карточки</div>
+      <div class="comp-demo" style="gap:12px;">
+        <div style="width:100%;">
+          <div class="card-clip">
+            <div class="card-clip-out"></div>
+            <div class="card-clip-in">clip-path · <span style="color:var(--accent);">--a15 outline</span></div>
+          </div>
+        </div>
+        <div class="card-soft" style="width:100%;">card-soft · --w04 · --w08 border</div>
+        <div class="card-dk" style="width:100%;">card-dk · --grad-violet-dk</div>
+        <div class="card-teal" style="width:100%;">card-teal · --grad-teal-dk</div>
+        <span class="tk">4 варианта карточек</span>
+      </div>
+    </div>
+
+    <!-- Toggles & Radio -->
+    <div class="comp-card">
+      <div class="comp-label">Тоглы / Радио</div>
+      <div class="comp-demo">
+        <div class="comp-row">
+          <div class="tg on"></div>
+          <span style="font-size:11px; color:var(--w60);">Присутствие активно</span>
+        </div>
+        <div class="comp-row">
+          <div class="tg"></div>
+          <span style="font-size:11px; color:var(--w40);">Режим DND</span>
+        </div>
+        <div class="comp-row" style="margin-top:4px;">
+          <div class="rd on"></div>
+          <span style="font-size:11px; color:var(--w80);">Creator Mode</span>
+        </div>
+        <div class="comp-row">
+          <div class="rd"></div>
+          <span style="font-size:11px; color:var(--w40);">Professional</span>
+        </div>
+        <div style="display:flex; gap:6px; flex-wrap:wrap;">
+          <span class="tk">--a15 bg</span><span class="tk">--accent dot + glow</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pills & Tags -->
+    <div class="comp-card">
+      <div class="comp-label">Пилюли / Теги</div>
+      <div class="comp-demo">
+        <div class="comp-row">
+          <span class="pl a">Creator</span>
+          <span class="pl">Personal</span>
+          <span class="pl">Pro</span>
+        </div>
+        <div class="comp-row" style="margin-top:4px;">
+          <span class="tag tag-soft">Soft Focus</span>
+          <span class="tag tag-hard">Hard Limit</span>
+          <span class="tag tag-personal">Personal</span>
+        </div>
+        <div style="display:flex; gap:6px; flex-wrap:wrap;">
+          <span class="tk">--a12 active pill</span><span class="tk">--pink badge</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slider -->
+    <div class="comp-card">
+      <div class="comp-label">Слайдер</div>
+      <div class="comp-demo" style="width:100%;">
+        <div class="sl-wrap">
+          <div style="display:flex; justify-content:space-between; margin-bottom:4px; font-size:9px; letter-spacing:.22em; color:var(--w40); text-transform:uppercase;">
+            <span>Availability</span><span style="color:var(--accent);">68%</span>
+          </div>
+          <div class="sl">
+            <div class="sl-f" style="width:68%;"></div>
+            <div class="sl-t" style="left:68%;"></div>
+          </div>
+          <div class="sl-ends"><span>Min</span><span style="color:var(--accent);">68</span><span>Max</span></div>
+        </div>
+        <span class="tk">--accent fill · 3px track</span>
+      </div>
+    </div>
+
+    <!-- Progress Rings -->
+    <div class="comp-card">
+      <div class="comp-label">Прогресс-кольца</div>
+      <div class="comp-demo">
+        <div class="comp-row">
+          <div class="ring">
+            <svg width="60" height="60" viewBox="0 0 60 60">
+              <circle class="rtrack" cx="30" cy="30" r="25"/>
+              <circle class="rfill" cx="30" cy="30" r="25" stroke="var(--accent)" stroke-dasharray="157" stroke-dashoffset="45" filter="drop-shadow(0 0 5px var(--accent))"/>
+            </svg>
+            <div class="rpct" style="color:var(--accent);">71%</div>
+          </div>
+          <div class="ring">
+            <svg width="60" height="60" viewBox="0 0 60 60">
+              <circle class="rtrack" cx="30" cy="30" r="25"/>
+              <circle class="rfill" cx="30" cy="30" r="25" stroke="var(--purple)" stroke-dasharray="157" stroke-dashoffset="93" filter="drop-shadow(0 0 5px var(--purple))"/>
+            </svg>
+            <div class="rpct" style="color:var(--purple);">41%</div>
+          </div>
+          <div class="ring">
+            <svg width="60" height="60" viewBox="0 0 60 60">
+              <circle class="rtrack" cx="30" cy="30" r="25"/>
+              <circle class="rfill" cx="30" cy="30" r="25" stroke="var(--pink)" stroke-dasharray="157" stroke-dashoffset="25" filter="drop-shadow(0 0 5px var(--pink))"/>
+            </svg>
+            <div class="rpct" style="color:var(--pink);">84%</div>
+          </div>
+        </div>
+        <span class="tk">SVG stroke-dashoffset · 3 цвета</span>
+      </div>
+    </div>
+
+    <!-- Bar Chart -->
+    <div class="comp-card">
+      <div class="comp-label">Бар-чарт / Waveform</div>
+      <div class="comp-demo">
+        <div class="bar-chart" style="width:100%;">
+          <i style="height:30%;"></i><i style="height:50%;"></i>
+          <i style="height:75%;"></i><i style="height:45%;"></i>
+          <i style="height:90%;"></i><i style="height:65%;"></i><i style="height:40%;"></i>
+        </div>
+        <div class="wf" style="margin-top:8px;">
+          <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+        </div>
+        <span class="tk">--accent gradient bars · glow</span>
+      </div>
+    </div>
+
+    <!-- Identity Card — Active/Inactive (Figma 11-466) -->
+    <div class="comp-card" style="grid-column:span 2;">
+      <div class="comp-label">Identity Card · Active vs Idle · Figma 11-466</div>
+      <div class="comp-demo" style="width:100%;">
+        <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:10px; width:100%;">
+          <div class="idc s"><div class="idc-av"></div><div class="idc-nm">CEO</div><div class="idc-st">Active</div><div class="idc-check">✓</div></div>
+          <div class="idc s v"><div class="idc-av"></div><div class="idc-nm">VP</div><div class="idc-st">Active</div><div class="idc-check">✓</div></div>
+          <div class="idc s p"><div class="idc-av"></div><div class="idc-nm">Parent</div><div class="idc-st">Active</div><div class="idc-check">✓</div></div>
+          <div class="idc s y"><div class="idc-av"></div><div class="idc-nm">Creator</div><div class="idc-st">Active</div><div class="idc-check">✓</div></div>
+          <div class="idc"><div class="idc-av"></div><div class="idc-nm">NBR</div><div class="idc-st">Idle</div></div>
+          <div class="idc"><div class="idc-av"></div><div class="idc-nm">Patient</div><div class="idc-st">Idle</div></div>
+          <div class="idc"><div class="idc-av"></div><div class="idc-nm">Bound</div><div class="idc-st">Idle</div></div>
+          <div class="idc" style="border-style:dashed; align-items:center; justify-items:center; text-align:center;"><div class="idc-nm" style="font-size:22px; color:var(--w40); font-family:'Barlow Condensed',sans-serif;">+</div><div class="idc-st">Custom</div></div>
+        </div>
+        <div style="display:flex; gap:6px; flex-wrap:wrap; margin-top:6px;">
+          <span class="tk">.idc / .idc.s (+v/p/y) / clip-path angled</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step-Arrow Bar (Figma 11-467) -->
+    <div class="comp-card" style="grid-column:span 2;">
+      <div class="comp-label">Step-Arrow Bar · Figma 11-467</div>
+      <div class="comp-demo" style="width:100%;">
+        <div style="background:var(--bg-black); padding:16px 8px; border-radius:14px; width:100%;">
+          <div class="sab">
+            <div class="sab-back"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 4 L6 8 L10 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <div class="sab-pill">STEP 05 / 05</div>
+            <div class="sab-skip">SKIP</div>
+          </div>
+        </div>
+        <div style="display:flex; gap:6px; flex-wrap:wrap;">
+          <span class="tk">.sab / .sab-back / .sab-pill / .sab-skip</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Status Bar (Figma 16-315) -->
+    <div class="comp-card" style="grid-column:span 2;">
+      <div class="comp-label">Phone Status Bar · Figma 16-315</div>
+      <div class="comp-demo" style="width:100%;">
+        <div style="border-radius:30px 30px 0 0; overflow:hidden; width:100%;">
+          <div class="psb">
+            <span class="psb-time">9:41</span>
+            <div class="psb-icons">
+              <svg width="17" height="12" viewBox="0 0 17 12" fill="currentColor"><rect x="0" y="9" width="2.5" height="3" rx=".5"/><rect x="4" y="6" width="2.5" height="6" rx=".5"/><rect x="8" y="3" width="2.5" height="9" rx=".5"/><rect x="12" y="0" width="2.5" height="12" rx=".5"/></svg>
+              <svg width="16" height="12" viewBox="0 0 16 12" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M8 9.5c.7 0 1.3.6 1.3 1.3"/><path d="M5 7c1.6-1.6 4.4-1.6 6 0"/><path d="M2 4c3.3-3.3 8.7-3.3 12 0"/></svg>
+              <svg width="25" height="12" viewBox="0 0 25 12" fill="none"><rect x=".5" y="1.5" width="21" height="9" rx="2.5" stroke="currentColor" stroke-opacity=".5"/><rect x="2" y="3" width="18" height="6" rx="1" fill="currentColor"/><rect x="22" y="4" width="1.5" height="4" rx=".5" fill="currentColor" opacity=".5"/></svg>
+            </div>
+          </div>
+        </div>
+        <div style="display:flex; gap:6px; flex-wrap:wrap;">
+          <span class="tk">.psb / 44px height / Mono 12px</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Live & Status -->
+    <div class="comp-card">
+      <div class="comp-label">Live / Статус / Пагинация</div>
+      <div class="comp-demo">
+        <div class="step-ind"><div class="step-dot"></div>STEP 2 OF 5</div>
+        <div style="display:flex; align-items:center; gap:8px; font-size:11px; color:var(--w60);">
+          <span class="lvd"></span>Session active · 14h 22m
+        </div>
+        <div class="dots">
+          <i class="a"></i><i></i><i></i><i></i><i></i>
+        </div>
+        <div style="display:flex; gap:6px; flex-wrap:wrap;">
+          <span class="tk">blink anim</span><span class="tk">pulse dot</span><span class="tk">dots nav</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══ 04 SPACING · RADII · SHADOWS ══════════════════════ -->
+<section class="ds-section">
+  <div class="ds-section-head"><span class="ds-num">04</span><h2>Spacing · Radii · Shadows</h2></div>
+
+  <div class="ds-subsection">
+    <div class="ds-sublabel">Spacing Scale</div>
+    <div class="spacing-stack">
+      <div class="sp-row"><div class="sp-bar" style="width:var(--sp-2);"></div><span class="sp-info"><b>--sp-2</b> · 2px</span></div>
+      <div class="sp-row"><div class="sp-bar" style="width:var(--sp-4);"></div><span class="sp-info"><b>--sp-4</b> · 4px</span></div>
+      <div class="sp-row"><div class="sp-bar" style="width:var(--sp-6);"></div><span class="sp-info"><b>--sp-6</b> · 6px</span></div>
+      <div class="sp-row"><div class="sp-bar" style="width:var(--sp-8);"></div><span class="sp-info"><b>--sp-8</b> · 8px</span></div>
+      <div class="sp-row"><div class="sp-bar" style="width:var(--sp-10);"></div><span class="sp-info"><b>--sp-10</b> · 10px</span></div>
+      <div class="sp-row"><div class="sp-bar" style="width:var(--sp-12);"></div><span class="sp-info"><b>--sp-12</b> · 12px</span></div>
+      <div class="sp-row"><div class="sp-bar" style="width:var(--sp-14);"></div><span class="sp-info"><b>--sp-14</b> · 14px</span></div>
+      <div class="sp-row"><div class="sp-bar" style="width:var(--sp-16);"></div><span class="sp-info"><b>--sp-16</b> · 16px</span></div>
+      <div class="sp-row"><div class="sp-bar" style="width:var(--sp-22);"></div><span class="sp-info"><b>--sp-22</b> · 22px · screen padding</span></div>
+      <div class="sp-row"><div class="sp-bar" style="width:var(--sp-32);"></div><span class="sp-info"><b>--sp-32</b> · 32px</span></div>
+      <div class="sp-row"><div class="sp-bar" style="width:var(--sp-40);"></div><span class="sp-info"><b>--sp-40</b> · 40px</span></div>
+      <div class="sp-row"><div class="sp-bar" style="width:var(--sp-60);"></div><span class="sp-info"><b>--sp-60</b> · 60px</span></div>
+      <div class="sp-row"><div class="sp-bar" style="width:var(--sp-80);"></div><span class="sp-info"><b>--sp-80</b> · 80px · card gap</span></div>
+    </div>
+  </div>
+
+  <div class="ds-subsection">
+    <div class="ds-sublabel">Border Radius Scale</div>
+    <div class="radius-row">
+      <div class="radius-chip" style="border-radius:var(--r-sm);"><b>6</b><span>--r-sm</span></div>
+      <div class="radius-chip" style="border-radius:var(--r-md);"><b>10</b><span>--r-md</span></div>
+      <div class="radius-chip" style="border-radius:var(--r-lg);"><b>14</b><span>--r-lg</span></div>
+      <div class="radius-chip" style="border-radius:var(--r-xl);"><b>16</b><span>--r-xl</span></div>
+      <div class="radius-chip" style="border-radius:var(--r-2xl);"><b>18</b><span>--r-2xl</span></div>
+      <div class="radius-chip" style="border-radius:var(--r-card); width:90px; height:90px;"><b>50</b><span>--r-card</span></div>
+      <div class="radius-chip" style="border-radius:var(--r-pill); width:90px; height:38px;"><b>∞</b><span>--r-pill</span></div>
+    </div>
+  </div>
+
+  <div class="ds-subsection">
+    <div class="ds-sublabel">Shadows &amp; Glows</div>
+    <div class="shadow-row">
+      <div class="shadow-chip" style="box-shadow:var(--shadow-sm);"><span style="color:var(--w40);">--shadow-sm<br>4px 12px .4</span></div>
+      <div class="shadow-chip" style="box-shadow:var(--shadow-md);"><span style="color:var(--w40);">--shadow-md<br>8px 24px .6</span></div>
+      <div class="shadow-chip" style="box-shadow:var(--shadow-lg);"><span style="color:var(--w40);">--shadow-lg<br>16px 48px .7</span></div>
+      <div class="shadow-chip" style="box-shadow:var(--glow-accent); border:1px solid rgba(110,244,216,.3);"><span style="color:var(--accent);">--glow-accent<br>mint · .45</span></div>
+      <div class="shadow-chip" style="box-shadow:var(--glow-violet); border:1px solid rgba(174,112,254,.3);"><span style="color:var(--purple);">--glow-violet<br>violet · .45</span></div>
+      <div class="shadow-chip" style="box-shadow:var(--glow-pink); border:1px solid rgba(254,170,211,.3);"><span style="color:var(--pink);">--glow-pink<br>pink · .45</span></div>
+    </div>
+  </div>
+
+  <div class="ds-subsection">
+    <div class="ds-sublabel">Motion</div>
+    <div style="padding:20px 24px; border:1px solid var(--w08); border-radius:14px; background:var(--w04); display:flex; gap:24px; flex-wrap:wrap; align-items:center;">
+      <div>
+        <div style="font-size:9px; letter-spacing:.22em; color:var(--w30); text-transform:uppercase; margin-bottom:8px;">--ease</div>
+        <div style="font-size:12px; color:var(--accent); letter-spacing:.04em; font-family:'DM Mono',monospace;">cubic-bezier(.4, 0, .2, 1)</div>
+      </div>
+      <div>
+        <div style="font-size:9px; letter-spacing:.22em; color:var(--w30); text-transform:uppercase; margin-bottom:8px;">Durations</div>
+        <div style="font-size:12px; color:var(--w60); letter-spacing:.04em; font-family:'DM Mono',monospace;">.2s · .3s · .4s · 2s (pulse)</div>
+      </div>
+      <div>
+        <div style="font-size:9px; letter-spacing:.22em; color:var(--w30); text-transform:uppercase; margin-bottom:8px;">Keyframes</div>
+        <div style="font-size:12px; color:var(--w60); letter-spacing:.04em; font-family:'DM Mono',monospace;">orb-pulse · wave · blink · fc-pulse</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ───────────────────────────────────────────── -->
+<footer style="padding-top:28px; border-top:1px solid var(--w06); display:flex; justify-content:space-between; align-items:center; font-size:9px; color:var(--w25); letter-spacing:.18em; text-transform:uppercase;">
+  <span>Presence Layer · Design System · v2.0</span>
+  <span>Figma 46:454 · 43:695 · Dela Gothic One · 2026</span>
+</footer>
+
+</body>
+</html>
